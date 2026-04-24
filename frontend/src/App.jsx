@@ -17,12 +17,13 @@ function App() {
   return (
     <div>
       <h2>Stockfolio</h2>
-      <ul>
-        {stocks.map((s) =>(
-          <li key={s._id}>{s.name}</li>
-        )
-        )}
-      </ul>
+      {stocks.map((s) =>(
+        <div  key={s._id}>
+          <span>Company:{s.name}</span>
+          <span>Symbol:{s.symbol}</span>
+          <span>Price:{s.price}</span>
+        </div>
+      ))}
     </div>
   )
 }
