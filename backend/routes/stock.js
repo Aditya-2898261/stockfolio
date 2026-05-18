@@ -35,6 +35,11 @@ router.post("/buy",async(req,res)=>{
    }
 });
 
+router.get("/profile",async(req,res) =>{
+   let allHoldings = await Holding.find({user:req.user._id}).populate("stock");
+   res.send(allHoldings);
+});
+
 
 
 module.exports = router;
