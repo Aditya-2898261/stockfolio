@@ -35,9 +35,31 @@ router.post("/buy",async(req,res)=>{
    }
 });
 
-router.get("/profile",async(req,res) =>{
+router.get("/portfolio",async(req,res) =>{
    let allHoldings = await Holding.find({user:req.user._id}).populate("stock");
    res.send(allHoldings);
+});
+
+router.post("/sell",async(req,res) =>{
+try{
+    let {stockid,quantity} = req.body;
+    let holding = await Holding.findOne({user:req.user._id, stock:stockid}).populate("stock");
+    if(quantity>holding.quantity){
+     return res.status(401).send("quantity is greater than actual")
+    }
+    let total = holding.stock.price*quantity;
+    req.user.balance+=total;
+    await req.user.save();
+    holding.quantity-=quantity;
+    if(holding.quantity === 0){
+        await holding.deleteOne();
+    }else{
+       await holding.save();
+    }
+    res.send("stock sold successfully");
+}catch(err){
+    res.status(400).send(err.message);
+}
 });
 
 
