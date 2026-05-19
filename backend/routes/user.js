@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/user.js");
 const passport = require("passport");
 
+//Post route for user signup
 router.post("/signup",async(req,res) => {
     let {username,email,password,balance} = req.body;
     let newUser = new User({username,email,balance});
@@ -11,6 +12,7 @@ router.post("/signup",async(req,res) => {
     res.send("user signedup successfully");
 });
 
+//Post route for user login
 router.post("/login",
      passport.authenticate('local', { failureRedirect: '/login'}),
      async(req,res) =>{

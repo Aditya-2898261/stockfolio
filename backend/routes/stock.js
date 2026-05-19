@@ -3,6 +3,7 @@ const router = express.Router();
 const Stock = require("../models/stock.js");
 const Holding = require("../models/holding.js")
 
+//Get route for stock
 router.get("/",async(req,res)=>{
     try {
     const stocks = await Stock.find();
@@ -12,6 +13,7 @@ router.get("/",async(req,res)=>{
     }
 });
 
+//Post route for buy stock
 router.post("/buy",async(req,res)=>{
     try{
     let{stockId,quantity} = req.body;
@@ -35,11 +37,13 @@ router.post("/buy",async(req,res)=>{
    }
 });
 
+//Get route for portfolio
 router.get("/portfolio",async(req,res) =>{
    let allHoldings = await Holding.find({user:req.user._id}).populate("stock");
    res.send(allHoldings);
 });
 
+//Post route for sell stock
 router.post("/sell",async(req,res) =>{
 try{
     let {stockid,quantity} = req.body;

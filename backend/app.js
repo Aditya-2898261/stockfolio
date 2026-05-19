@@ -1,14 +1,18 @@
 const express = require ("express");
 const cors = require("cors");
 const app = express();
+//database Related
 const mongoose = require('mongoose');
 const Stock = require("./models/stock.js");
 const User = require("./models/user.js");
+//session and passport
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+//Router Routes
 const userRouter = require("./routes/user.js");
 const stockRouter = require("./routes/stock.js");
+
 
 app.use(cors());
 app.use(express.json());
@@ -18,6 +22,7 @@ async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/zerodha');
   console.log("DB connected");
 }
+
 
 const sessionOptions = {
   secret: 'Mystocksecreat',
@@ -43,8 +48,9 @@ app.get("/",(req,res)=>{
     res.send("hello zerodha");
 })
 
+//user Routes
 app.use("/users",userRouter);
-
+//stock Routes
 app.use("/stocks",stockRouter);
 
 app.listen(3000,()=>{
