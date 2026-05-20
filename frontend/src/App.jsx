@@ -1,30 +1,17 @@
-import { useEffect } from "react";
-import { useState } from "react"
+import {Routes, Route} from "react-router-dom";
+import StockList from "./pages/StockList.jsx";
+import Login from "./pages/Login.jsx";
+import Signup from "./pages/Signup.jsx";
+import Portfolio from "./pages/Portfolio.jsx";
 
-
-function App() {
-  const [stocks,setStocks] = useState([]);
-  
-  useEffect(()=>{
-    const getStocks = async()=>{
-      let res = await fetch("http://localhost:3000/stocks");
-      let data = await res.json();
-      setStocks(data);
-    };
-    getStocks();
-    },[]);
-
-  return (
-    <div>
-      <h2>Stockfolio</h2>
-      {stocks.map((s) =>(
-        <div  key={s._id}>
-          <span>Company:{s.name}</span>
-          <span>Symbol:{s.symbol}</span>
-          <span>Price:{s.price}</span>
-        </div>
-      ))}
-    </div>
+function App(){
+  return(
+    <Routes>
+      <Route path="/" element={<StockList />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/portfolio" element={<Portfolio />} />
+    </Routes>
   )
 }
 
