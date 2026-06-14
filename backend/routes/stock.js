@@ -3,6 +3,8 @@ const router = express.Router();
 const Stock = require("../models/stock.js");
 const Holding = require("../models/holding.js")
 
+const {isLoggedIn} = require("../middleware.js");
+
 //Get route for stock
 router.get("/",async(req,res)=>{
     try {
@@ -14,7 +16,7 @@ router.get("/",async(req,res)=>{
 });
 
 //Post route for buy stock
-router.post("/buy",async(req,res)=>{
+router.post("/buy", isLoggedIn, async(req,res)=>{
     try{
     let{stockId,quantity} = req.body;
     const stock = await Stock.findById(stockId);
@@ -38,13 +40,13 @@ router.post("/buy",async(req,res)=>{
 });
 
 //Get route for portfolio
-router.get("/portfolio",async(req,res) =>{
+router.get("/portfolio", isLoggedIn, async(req,res) =>{
    let allHoldings = await Holding.find({user:req.user._id}).populate("stock");
    res.send(allHoldings);
 });
 
 //Post route for sell stock
-router.post("/sell",async(req,res) =>{
+router.post("/sell", isLoggedIn, async(req,res) =>{
 try{
     let {stockId,quantity} = req.body;
     let holding = await Holding.findOne({user:req.user._id, stock:stockId}).populate("stock");

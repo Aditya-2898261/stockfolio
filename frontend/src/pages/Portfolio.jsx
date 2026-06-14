@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {useEffect} from "react";
+
  
 function Portfolio(){
+    const navigate = useNavigate();
     let [profile,setProfile] = useState([]);
      let [sellQuantity,setSellQuantity] = useState({});
 
@@ -31,6 +34,12 @@ function Portfolio(){
             let result = await fetch("http://localhost:3000/stocks/portfolio",{
                 credentials: "include"
             });
+            if(!result.ok){
+                let message = await result.text();
+                alert(message);
+                 navigate("/login");
+                return;
+            }
             let data = await result.json();
             setProfile(data);
         };
