@@ -46,8 +46,8 @@ router.get("/portfolio",async(req,res) =>{
 //Post route for sell stock
 router.post("/sell",async(req,res) =>{
 try{
-    let {stockid,quantity} = req.body;
-    let holding = await Holding.findOne({user:req.user._id, stock:stockid}).populate("stock");
+    let {stockId,quantity} = req.body;
+    let holding = await Holding.findOne({user:req.user._id, stock:stockId}).populate("stock");
     if(quantity>holding.quantity){
      return res.status(401).send("quantity is greater than actual")
     }
