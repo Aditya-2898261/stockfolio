@@ -34,15 +34,25 @@ function StockList() {
     },[]);
 
   return (
-    <div>
-      <h2>Stockfolio</h2>
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-4">Stockfolio</h2>
       {stocks.map((s) =>(
-        <div  key={s._id}>
-          <span>Company:{s.name}</span>
-          <span>Symbol:{s.symbol}</span>
-          <span>Price:{s.price}</span>
-          <input type="number" placeholder="enter quantity" value={quantities[s._id] || ""} onChange={(e) => handleQualityChange(s._id, e.target.value)}/>
-          <button onClick={() => handleBuy(s._id)}>Buy</button>
+        <div  key={s._id} className="flex items-center gap-4 p-3 border-b">
+          <span className="w-32">{s.name}</span>
+          <span className="w-24 text-gray-500">{s.symbol}</span>
+          <span className="w-24">₹{s.price}</span>
+          <input type="number" 
+                 placeholder="enter quantity" 
+                 value={quantities[s._id] || ""} 
+                 onChange={(e) => handleQualityChange(s._id, e.target.value)}
+                 className="border rounded px-2 py-1 w-20"
+                 />
+          <button 
+                 onClick={() => handleBuy(s._id)}
+                 className="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700"
+                 >
+                 Buy
+          </button>
         </div>
       ))}
     </div>
