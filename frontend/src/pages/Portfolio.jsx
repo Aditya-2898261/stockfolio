@@ -14,7 +14,8 @@ function Portfolio(){
         )
      )}
 
-     let handleSell = async(stockId) =>{
+     let handleSell = async(e,stockId) =>{
+        e.preventDefault();
         let quantity = sellQuantity[stockId];
         let result = await fetch("http://localhost:3000/stocks/sell",{
             method: "POST",
@@ -60,7 +61,7 @@ function Portfolio(){
       </div>
 
       {profile.map((holds, index) => (
-        <div key={holds._id} className={`grid grid-cols-6 gap-4 px-4 py-3 items-center hover:bg-gray-50 ${index !== profile.length - 1 ? 'border-b border-gray-100' : ''}`}>
+        <form  onSubmit={(e) => handleSell(e,holds.stock._id)} key={holds._id} className={`grid grid-cols-6 gap-4 px-4 py-3 items-center hover:bg-gray-50 ${index !== profile.length - 1 ? 'border-b border-gray-100' : ''}`}>
           <div className="col-span-2">
             <p className="font-semibold text-gray-900 text-sm">{holds.stock.symbol}</p>
             <p className="text-xs text-gray-400">{holds.stock.name}</p>
@@ -76,15 +77,17 @@ function Portfolio(){
               value={sellQuantity[holds.stock._id] || ""} 
               onChange={(e) => handleSellQuantity(holds.stock._id, e.target.value)}
               className="border border-gray-300 rounded px-2 py-1 w-14 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
+              required
+              min="1"
             />
             <button 
-              onClick={() => handleSell(holds.stock._id)}
+             type="submit"
               className="bg-red-600 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-red-700 transition"
             >
               SELL
             </button>
           </div>
-        </div>
+        </form>
       ))}
     </div>
   </div>

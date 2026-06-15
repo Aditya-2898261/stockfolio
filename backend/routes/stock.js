@@ -19,6 +19,9 @@ router.get("/",async(req,res)=>{
 router.post("/buy", isLoggedIn, async(req,res)=>{
     try{
     let{stockId,quantity} = req.body;
+    if(!quantity || quantity <= 0){
+    return res.status(400).send("Invalid quantity");
+    }
     const stock = await Stock.findById(stockId);
     let totalPrice = stock.price*quantity;
     const user = req.user;
@@ -60,6 +63,9 @@ router.get("/portfolio", isLoggedIn, async(req,res) =>{
 router.post("/sell", isLoggedIn, async(req,res) =>{
 try{
     let {stockId,quantity} = req.body;
+    if(!quantity || quantity <= 0){
+    return res.status(400).send("Invalid quantity");
+    }
     let holding = await Holding.findOne({user:req.user._id, stock:stockId}).populate("stock");
     if(quantity>holding.quantity){
      return res.status(401).send("quantity is greater than actual")

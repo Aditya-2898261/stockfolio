@@ -12,7 +12,8 @@ function StockList() {
     ))
    }
 
-   let handleBuy = async(stockId) => {
+   let handleBuy = async(e,stockId) => {
+    e.preventDefault();
     let quantity = quantities[stockId];
     let result = await fetch("http://localhost:3000/stocks/buy",{
       method: "POST",
@@ -47,7 +48,7 @@ function StockList() {
       </div>
       
       {stocks.map((s, index) => (
-        <div  key={s._id} className={`grid grid-cols-5 gap-4 px-4 py-3 items-center hover:bg-gray-50 ${index !== stocks.length - 1 ? 'border-b border-gray-100' : ''}`}>
+      <form onSubmit={(e) => handleBuy(e,s._id)} key={s._id} className={`grid grid-cols-5 gap-4 px-4 py-3 items-center hover:bg-gray-50 ${index !== stocks.length - 1 ? 'border-b border-gray-100' : ''}`}>
           <div className="col-span-2">
             <p className="font-semibold text-gray-900 text-sm">{s.symbol}</p>
             <p className="text-xs text-gray-400">{s.name}</p>
@@ -59,14 +60,15 @@ function StockList() {
             value={quantities[s._id] || ""} 
             onChange={(e) => handleQualityChange(s._id, e.target.value)}
             className="border border-gray-300 rounded px-2 py-1 w-16 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+            min="1"
           />
-          <button 
-            onClick={() => handleBuy(s._id)}
+          <button type="submit"
             className="bg-green-600 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-green-700 transition w-fit"
           >
             BUY
           </button>
-        </div>
+        </form>
       ))}
     </div>
   </div>
