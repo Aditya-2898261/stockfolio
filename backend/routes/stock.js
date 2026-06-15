@@ -22,17 +22,28 @@ router.post("/buy", isLoggedIn, async(req,res)=>{
     const stock = await Stock.findById(stockId);
     let totalPrice = stock.price*quantity;
     const user = req.user;
+
     if(user.balance < totalPrice){
        return res.status(401).send("you don have suffiecient balance");
     }
+
     user.balance = user.balance-totalPrice;
     await user.save();
-    let newHolding = new Holding({
+   //check if holding alreday exist with stock and user
+    let existingHolding = await Holding.findOne({user:user._id,stock:stockId});
+ 
+    if(existingHolding){
+       existingHolding.quantity+= Number(quantity);
+       await existingHolding.save(); 
+    }else{
+        let newHolding = new Holding({
         user:user,
         stock:stock,
-        quantity:quantity,
-    })
-    await newHolding.save();
+        quantity:Number(quantity),
+        })
+       await newHolding.save();
+    }
+
     res.send("stock bought successfully");
    }catch(err){
     res.status(500).send(err.message);

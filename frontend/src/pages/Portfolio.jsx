@@ -47,22 +47,48 @@ function Portfolio(){
     },[]);
 
     return(
-       <div>
-        {
-            profile.map((holds) =>(
-                <div key={holds._id}>
-                    <span>{holds.stock.name}</span>&nbsp;&nbsp;
-                    <span>{holds.stock.symbol}</span>&nbsp;&nbsp;
-                    <span>{holds.stock.price}</span>&nbsp;&nbsp;
-                     <span>{holds.quantity}</span>&nbsp;&nbsp;
-                    <span>Total:{holds.quantity*holds.stock.price}</span>&nbsp;&nbsp;  
-                    <input type="number" placeholder="enter sell quantity" value={sellQuantity[holds.stock._id] || ""} onChange={(e) => handleSellQuantity(holds.stock._id, e.target.value)} />
-                    <button onClick={() => handleSell(holds.stock._id)}>Sell</button>
-                </div>
-            ))
-        }
-       </div>
-    )
+      <div className="min-h-screen bg-gray-50 p-6">
+         <h2 className="text-2xl font-bold text-gray-900 mb-6">Holdings</h2>
+    
+     <div className="bg-white rounded-lg shadow border border-gray-200">
+      <div className="grid grid-cols-6 gap-4 px-4 py-3 text-xs font-semibold text-gray-500 border-b border-gray-200">
+        <span className="col-span-2">INSTRUMENT</span>
+        <span>QTY</span>
+        <span>LTP</span>
+        <span>CURRENT VALUE</span>
+        <span>ACTION</span>
+      </div>
+
+      {profile.map((holds, index) => (
+        <div key={holds._id} className={`grid grid-cols-6 gap-4 px-4 py-3 items-center hover:bg-gray-50 ${index !== profile.length - 1 ? 'border-b border-gray-100' : ''}`}>
+          <div className="col-span-2">
+            <p className="font-semibold text-gray-900 text-sm">{holds.stock.symbol}</p>
+            <p className="text-xs text-gray-400">{holds.stock.name}</p>
+          </div>
+          <span className="font-mono text-gray-900">{holds.quantity}</span>
+          <span className="font-mono text-gray-900">₹{holds.stock.price}</span>
+          <span className="font-mono font-semibold text-gray-900">₹{holds.quantity * holds.stock.price}</span>
+          
+          <div className="flex gap-2">
+            <input 
+              type="number" 
+              placeholder="0" 
+              value={sellQuantity[holds.stock._id] || ""} 
+              onChange={(e) => handleSellQuantity(holds.stock._id, e.target.value)}
+              className="border border-gray-300 rounded px-2 py-1 w-14 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
+            />
+            <button 
+              onClick={() => handleSell(holds.stock._id)}
+              className="bg-red-600 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-red-700 transition"
+            >
+              SELL
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)
 }
 
 export default Portfolio
