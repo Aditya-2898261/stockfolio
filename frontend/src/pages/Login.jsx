@@ -20,6 +20,11 @@ function Login(){
             credentials: "include",
             body: JSON.stringify(formData)
         })
+        let data = await result.text();
+        if(!result.ok){
+          alert(data);
+          return;
+        }
         if(result.ok){
             window.location.href = "/";
         }

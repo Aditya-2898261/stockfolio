@@ -14,11 +14,21 @@ router.post("/signup",async(req,res) => {
 });
 
 //Post route for user login
-router.post("/login",
-     passport.authenticate('local', { failureRedirect: '/login'}),
-     async(req,res) =>{
-    res.send("user loggedin succesfully");
+router.post("/login", (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if(err) return next(err);
+    if(!user) return res.status(401).send("Invalid username or password");
+    req.logIn(user, (err) => {
+      if(err) return next(err);
+      res.send("logged in successfully");
+    });
+  })(req, res, next);
 });
+// router.post("/login",
+//      passport.authenticate('local', { failureRedirect: '/login'}),
+//      async(req,res) =>{
+//     res.send("user loggedin succesfully");
+// });
 
 //get route for logout
 router.get("/logout",(req,res,next) => {
