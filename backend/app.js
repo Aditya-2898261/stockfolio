@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require ("express");
 const cors = require("cors");
 const app = express();
@@ -22,7 +23,7 @@ app.use(express.json());
 
 main().catch(err => console.log(err));
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/zerodha');
+  await mongoose.connect(process.env.MONGO_URL);
   console.log("DB connected");
 }
 
@@ -56,6 +57,6 @@ app.use("/users",userRouter);
 //stock Routes
 app.use("/stocks",stockRouter);
 
-app.listen(3000,()=>{
-    console.log("app is listening to the port 3000");
+app.listen(process.env.PORT, ()=>{
+    console.log("app is listening to the port "+ process.env.PORT);
 })
