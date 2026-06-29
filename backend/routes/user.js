@@ -2,6 +2,7 @@ const express = require ("express");
 const router = express.Router();
 const User = require("../models/user.js");
 const passport = require("passport");
+const { isLoggedIn } = require("../middleware.js");
 
 
 //Post route for user signup
@@ -38,6 +39,11 @@ router.get("/logout",(req,res,next) => {
         }
         res.send("user logged out");
     })
+});
+
+//get route to show user balance
+router.get("/me", isLoggedIn,(req,res) =>{
+    res.json({balance:req.user.balance, email:req.user.email});  
 });
 
 module.exports = router;

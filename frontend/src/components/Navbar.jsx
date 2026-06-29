@@ -1,6 +1,22 @@
+import { useState,useEffect} from "react";
 import { Link } from "react-router-dom";
 
 function Navbar(){
+
+  let [user,setUser] = useState(null);
+
+  useEffect(() => {
+    const getUser = async() => {
+      let result = await fetch("http://localhost:3000/users/me", {
+       credentials:"include"
+      });
+      if(result.ok){
+        let data = await result.json();
+        setUser(data);
+      }
+    }
+     getUser(); 
+  },[]);
 
 let handleLogout = async() => {
   let result = await fetch("http://localhost:3000/users/logout",{
@@ -17,7 +33,8 @@ let handleLogout = async() => {
             <Link to="/portfolio">Portfolio</Link>
             <Link to="/login">Login</Link> 
             <Link to="/signup">Signup</Link>
-            <button onClick={handleLogout} className="ml-auto">Logout</button>
+            {user && <span className="ml-auto">₹{user.balance}</span>}
+            <button onClick={handleLogout} className={user ? "" : "ml-auto"}>Logout</button>
         </nav>
     )
 }
