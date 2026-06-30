@@ -67,6 +67,9 @@ try{
     return res.status(400).send("Invalid quantity");
     }
     let holding = await Holding.findOne({user:req.user._id, stock:stockId}).populate("stock");
+    if(!holding){
+    return res.status(404).send("Holding not found");
+    }
     if(quantity>holding.quantity){
      return res.status(401).send("quantity is greater than actual")
     }
