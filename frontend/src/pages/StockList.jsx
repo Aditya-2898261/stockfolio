@@ -80,27 +80,35 @@ function StockList() {
       <div className="grid grid-cols-5 gap-4 px-4 py-3 text-xs font-semibold text-gray-500 border-b border-gray-200">
         <span className="col-span-2">INSTRUMENT</span>
         <span>LTP</span>
-        <span>QTY</span>
+        <span>CHANGE</span>
+        <span>ACTION</span>
       </div>
       
-      {stocks.map((s, index) => (
+      {stocks.map((s, index) => {
+      const change = ((s.price - s.prevPrice)/s.prevPrice*100).toFixed(2);
+      const isPositive = change >= 0;
+
+      return(
       <div key={s._id} className={`grid grid-cols-5 gap-4 px-4 py-3 items-center hover:bg-gray-50 ${index !== stocks.length - 1 ? 'border-b border-gray-100' : ''}`}>
           <div className="col-span-2">
             <p className="font-semibold text-gray-900 text-sm">{s.symbol}</p>
             <p className="text-xs text-gray-400">{s.name}</p>
           </div>
             <span className="font-mono font-semibold text-gray-900">₹{s.price}</span>
+            <span className={isPositive ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
+              {isPositive ? "+" : ""}{change}%
+            </span>
             <button onClick={() => handleBuyClick(s)}
             className="bg-green-600 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-green-700 transition w-fit"
             >
             BUY
             </button>
-        </div>
-      ))}
+      </div>
+      )
+      })}
     </div>
   </div>
-)
-  
+) 
 }
 
 export default StockList
