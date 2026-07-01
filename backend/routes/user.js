@@ -6,12 +6,19 @@ const { isLoggedIn } = require("../middleware.js");
 
 
 //Post route for user signup
-router.post("/signup",async(req,res) => {
-    let {username,email,password,balance} = req.body;
-    let newUser = new User({username,email,balance});
-    let registerdUser = await User.register(newUser,password);
-    console.log(registerdUser);
-    res.send("user signedup successfully");
+router.post("/signup",async(req,res,next) => {
+  try {
+    let {username, email, password, balance} = req.body;
+    let newUser = new User({username, email, balance});
+    let registeredUser = await User.register(newUser, password);
+    
+    req.logIn(registeredUser, (err) => {
+      if(err) return next(err);
+      res.send("user signed up successfully");
+    });
+  } catch(err) {
+    next(err);
+  }
 });
 
 //Post route for user login

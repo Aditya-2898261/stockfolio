@@ -22,15 +22,15 @@ function Signup(){
             credentials: "include",
             body: JSON.stringify(formData)
         });
-        if(result.ok){
-            window.location.href = "/";
+
+        let data = await result.text();
+    
+        if(!result.ok){
+            alert(data);
+            return;
         }
-        setFormData({
-        username:"",
-        email:"",
-        password:"",
-        balance:""
-        })
+    
+        window.location.href = "/stocks";
     }
 
 
