@@ -2,11 +2,11 @@ const express = require ("express");
 const router = express.Router();
 const User = require("../models/user.js");
 const passport = require("passport");
-const { isLoggedIn } = require("../middleware.js");
+const { isLoggedIn,validateSignup } = require("../middleware.js");
 
 
 //Post route for user signup
-router.post("/signup",async(req,res,next) => {
+router.post("/signup", validateSignup, async(req,res,next) => {
   try {
     let {username, email, password, balance} = req.body;
     let newUser = new User({username, email, balance});
