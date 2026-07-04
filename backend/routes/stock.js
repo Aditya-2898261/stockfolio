@@ -1,23 +1,21 @@
 const express = require ("express");
 const router = express.Router();
 const Stock = require("../models/stock.js");
-const Holding = require("../models/holding.js")
+const Holding = require("../models/holding.js");
 
 const {isLoggedIn} = require("../middleware.js");
 
+const wrapAsync = require("../utils/wrapAsync.js");
+const ExpressError = require("../utils/ExpressError.js");
+
 //Get route for stock
-router.get("/",async(req,res)=>{
-    try {
+router.get("/",wrapAsync(async(req,res)=>{
     const stocks = await Stock.find();
     res.json(stocks);                   
-    }catch(err){
-    res.status(500).json({ message: err.message });
-    }
-});
+}));
 
 //Post route for buy stock
-router.post("/buy", isLoggedIn, async(req,res)=>{
-    try{
+router.post("/buy", isLoggedIn, wrapAsync(async(req,res)=>{
     let{stockId,quantity} = req.body;
     if(!quantity || quantity <= 0){
     return res.status(400).send("Invalid quantity");
@@ -46,22 +44,17 @@ router.post("/buy", isLoggedIn, async(req,res)=>{
         })
        await newHolding.save();
     }
-
     res.send("stock bought successfully");
-   }catch(err){
-    res.status(500).send(err.message);
-   }
-});
+}));
 
 //Get route for portfolio
-router.get("/portfolio", isLoggedIn, async(req,res) =>{
+router.get("/portfolio", isLoggedIn, wrapAsync(async(req,res) =>{
    let allHoldings = await Holding.find({user:req.user._id}).populate("stock");
    res.send(allHoldings);
-});
+}));
 
 //Post route for sell stock
-router.post("/sell", isLoggedIn, async(req,res) =>{
-try{
+router.post("/sell", isLoggedIn,wrapAsync(async(req,res) =>{
     let {stockId,quantity} = req.body;
     if(!quantity || quantity <= 0){
     return res.status(400).send("Invalid quantity");
@@ -83,10 +76,7 @@ try{
        await holding.save();
     }
     res.send("stock sold successfully");
-}catch(err){
-    res.status(400).send(err.message);
-}
-});
+}));
 
 
 

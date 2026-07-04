@@ -13,6 +13,8 @@ const LocalStrategy = require("passport-local");
 //Router Routes
 const userRouter = require("./routes/user.js");
 const stockRouter = require("./routes/stock.js");
+//custom error class
+const ExpressError = require("./utils/ExpressError.js");
 
 
 app.use(cors({
@@ -57,6 +59,16 @@ app.get("/",(req,res)=>{
 app.use("/users",userRouter);
 //stock Routes
 app.use("/stocks",stockRouter);
+
+//404 handler for undefined routes
+app.all("*spat",(req,res,next) => {
+  next(new ExpressError(400,"page not found"));
+})
+//global error handling middleware
+app.use((err,req,res,next) => {
+  let{statusCode=500,message="Something went wrong"} = err;
+  res.status(statusCode).send(message);
+});
 
 app.listen(process.env.PORT, ()=>{
     console.log("app is listening to the port "+ process.env.PORT);

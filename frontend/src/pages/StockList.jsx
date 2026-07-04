@@ -33,6 +33,7 @@ function StockList() {
      let data = await result.text();
      alert(data);
      closeModal();
+     window.location.reload();
    }
   
   useEffect(()=>{
