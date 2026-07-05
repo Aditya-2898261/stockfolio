@@ -24,7 +24,7 @@ function StockList() {
   }
 
    let handleBuy = async() => {
-    let result = await fetch("http://localhost:3000/stocks/buy",{
+    let result = await fetch("https://stockfolio-backend-jkpl.onrender.com/stocks/buy",{
       method: "POST",
       headers: {"Content-Type":"application/json"},
       credentials:"include",
@@ -38,7 +38,7 @@ function StockList() {
   
   useEffect(()=>{
     const getStocks = async()=>{
-      let res = await fetch("http://localhost:3000/stocks");
+      let res = await fetch("https://stockfolio-backend-jkpl.onrender.com/stocks");
       let data = await res.json();
       setStocks(data);
     };

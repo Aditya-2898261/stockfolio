@@ -16,7 +16,7 @@ function Signup(){
 
     let handleSubmit = async(event) => {
         event.preventDefault();
-        let result = await fetch("http://localhost:3000/users/signup",{
+        let result = await fetch("https://stockfolio-backend-jkpl.onrender.com/users/signup",{
             method:"POST",
             headers:{ "Content-Type": "application/json" },
             credentials: "include",

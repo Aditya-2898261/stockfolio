@@ -14,7 +14,7 @@ function Login(){
 
     let handleSubmit = async(event) =>{
         event.preventDefault();
-        let result = await fetch("http://localhost:3000/users/login",{
+        let result = await fetch("https://stockfolio-backend-jkpl.onrender.com/users/login",{
             method:"POST",
             headers:{ "Content-Type": "application/json" },
             credentials: "include",

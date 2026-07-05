@@ -7,7 +7,7 @@ function Navbar(){
 
   useEffect(() => {
     const getUser = async() => {
-      let result = await fetch("http://localhost:3000/users/me", {
+      let result = await fetch("https://stockfolio-backend-jkpl.onrender.com/users/me", {
        credentials:"include"
       });
       if(result.ok){
@@ -19,7 +19,7 @@ function Navbar(){
   },[]);
 
 let handleLogout = async() => {
-  let result = await fetch("http://localhost:3000/users/logout",{
+  let result = await fetch("https://stockfolio-backend-jkpl.onrender.com/users/logout",{
     credentials:"include"
   })
   if(result.ok){

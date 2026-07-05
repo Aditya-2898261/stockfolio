@@ -26,7 +26,7 @@ function Portfolio(){
     }
 
      let handleSell = async() =>{
-        let result = await fetch("http://localhost:3000/stocks/sell",{
+        let result = await fetch("https://stockfolio-backend-jkpl.onrender.com/stocks/sell",{
             method: "POST",
             headers: {"Content-Type":"application/json"},
             credentials: "include",
@@ -42,7 +42,7 @@ function Portfolio(){
 
     useEffect(()=>{
         const getProfile = async() =>{
-            let result = await fetch("http://localhost:3000/stocks/portfolio",{
+            let result = await fetch("https://stockfolio-backend-jkpl.onrender.com/stocks/portfolio",{
                 credentials: "include"
             });
             if(!result.ok){
