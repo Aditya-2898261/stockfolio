@@ -5,7 +5,7 @@ A full-stack stock trading platform where users can sign up, buy and sell stocks
 ---
 
 ## 🚀 Live Demo
-> Coming soon after deployment
+👉 [https://stockfolio-five.vercel.app](https://stockfolio-five.vercel.app)
 
 ---
 
