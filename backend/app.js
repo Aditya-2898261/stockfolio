@@ -18,9 +18,10 @@ const ExpressError = require("./utils/ExpressError.js");
 
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://stockfolio-five.vercel.app",
   credentials: true
 }));
+
 app.use(express.json());
 
 main().catch(err => console.log(err));
