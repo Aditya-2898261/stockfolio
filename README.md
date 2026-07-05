@@ -91,7 +91,7 @@ stockfolio/
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/Aditya-2898261/stockfolio.git
-cd stock-trading-platform
+cd stockfolio
 ```
 
 ### 2. Backend Setup
