@@ -7,6 +7,11 @@ const stockSchema = new mongoose.Schema({
   prevPrice:Number,
 });
 
+stockSchema.pre("deleteOne",{document:true},async function(){
+  const Holding = require("./holding.js");
+  await Holding.deleteMany({stock: this._id});
+});
+
 const Stock = mongoose.model('Stock', stockSchema);
 
 module.exports = Stock;

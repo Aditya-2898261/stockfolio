@@ -31,7 +31,7 @@ async function main() {
 
 
 const sessionOptions = {
-  secret: 'Mystocksecreat',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie:{
